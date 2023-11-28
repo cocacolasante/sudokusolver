@@ -34,31 +34,23 @@ func(grid *SudokuGrid)FillRow(row int) {
 }
 
 func IsValid(grid *SudokuGrid, row, col, num int) bool {
-	// checks the line
+	// Check if the number is not present in the current row and column
 	for i := 0; i < 9; i++ {
-		if grid[row][i] == num {
+		if grid[row][i] == num || grid[i][col] == num {
 			return false
 		}
 	}
 
-	// checks the column
-
-	for i := 0; i < 9; i++ {
-		if grid[i][col] == num {
-			return false
-		}
-	}
-
-	// check the box
-	startRow, startCol := row-row%3, col-col%3
+	// Check if the number is not present in the current 3x3 subgrid
+	startRow, startCol := 3*(row/3), 3*(col/3)
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
-			if grid[i+startRow][j+startCol] == num {
+			if grid[startRow+i][startCol+j] == num {
 				return false
 			}
 		}
 	}
 
 	return true
-
 }
+
